@@ -24,7 +24,8 @@ Src/stm32f1xx_it.o: ../Src/stm32f1xx_it.c \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
- C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/stm32f1xx_it.h
+ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/stm32f1xx_it.h \
+ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/Modbus.h
 
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 
@@ -77,3 +78,5 @@ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
 
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/stm32f1xx_it.h:
+
+C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/Modbus.h:

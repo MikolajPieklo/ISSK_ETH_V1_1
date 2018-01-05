@@ -38,7 +38,8 @@ Src/main.o: ../Src/main.c \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/w5500.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/socket.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/ModbusTCP_IP.h \
- C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/dhcp.h
+ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/dhcp.h \
+ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/A24AA64.h
 
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/main.h:
 
@@ -119,3 +120,5 @@ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/soc
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/ModbusTCP_IP.h:
 
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/dhcp.h:
+
+C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/A24AA64.h:

@@ -4,6 +4,8 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Src/A24AA64.c \
+../Src/AT45DB161E.c \
 ../Src/Modbus.c \
 ../Src/ModbusTCP_IP.c \
 ../Src/WIZ5500.c \
@@ -22,6 +24,8 @@ C_SRCS += \
 ../Src/wizchip_conf.c 
 
 OBJS += \
+./Src/A24AA64.o \
+./Src/AT45DB161E.o \
 ./Src/Modbus.o \
 ./Src/ModbusTCP_IP.o \
 ./Src/WIZ5500.o \
@@ -40,6 +44,8 @@ OBJS += \
 ./Src/wizchip_conf.o 
 
 C_DEPS += \
+./Src/A24AA64.d \
+./Src/AT45DB161E.d \
 ./Src/Modbus.d \
 ./Src/ModbusTCP_IP.d \
 ./Src/WIZ5500.d \

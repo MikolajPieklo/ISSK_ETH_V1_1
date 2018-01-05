@@ -10,16 +10,25 @@
 #include "stm32f1xx_hal.h"
 #include "spi.h"
 #include "string.h"
+#include "ModbusTCP_IP.h"
 
 void WIZ5500_Init()
 {
 
-	 HAL_GPIO_WritePin(W5500_RST_GPIO_Port,W5500_RST_Pin,GPIO_PIN_SET);
-	 HAL_GPIO_WritePin(W5500_CS_GPIO_Port,W5500_CS_Pin,GPIO_PIN_SET);
+	HAL_GPIO_WritePin(W5500_RST_GPIO_Port,W5500_RST_Pin,GPIO_PIN_SET);
+	HAL_GPIO_WritePin(W5500_CS_GPIO_Port,W5500_CS_Pin,GPIO_PIN_SET);
 
 	HAL_GPIO_WritePin(USART1_DE_GPIO_Port,USART1_DE_Pin,GPIO_PIN_RESET);   //Driver Modbustro
 	HAL_GPIO_WritePin(USART1_REn_GPIO_Port,USART1_REn_Pin,GPIO_PIN_RESET); //Driver Modbustro
-	 HAL_Delay(50);
+	HAL_Delay(50);
+
+	ModbusTCP.Register[0]='A'<<8|'T';ModbusTCP.Register[1]='R'<<8|'E';ModbusTCP.Register[2]='M'<<8|' ';ModbusTCP.Register[3]='S'<<8|'A';
+	ModbusTCP.Register[4]='I'<<8|'S';ModbusTCP.Register[5]='S'<<8|'K';ModbusTCP.Register[6]='_'<<8|'E';ModbusTCP.Register[7]='T'<<8|'H';
+
+	ModbusTCP.Register[10]='1'<<8|'.';ModbusTCP.Register[11]='0'<<8|'1';
+	ModbusTCP.Register[12]='1'<<8|'.';ModbusTCP.Register[13]='0'<<8|'1';
+
+
 
 	Main_WIZ5500.GateDefault.Gate0=192;
 	Main_WIZ5500.GateDefault.Gate1=168;

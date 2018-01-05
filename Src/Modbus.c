@@ -1,6 +1,7 @@
 #include "Modbus.h"
 #include "stm32f1xx_hal.h"
 #include "usart.h"
+#include "ModbusTCP_IP.h"
 
 
 
@@ -59,7 +60,7 @@ void ModbusWrite(uint8_t* SendBuffor,uint8_t len){
 	SendBuffor[len]=(tempCRC&0x00FF);
 	SendBuffor[len+1]=(tempCRC>>0x08);
 
-	HAL_UART_Transmit_DMA(&huart2,SendBuffor,len+2);
+	HAL_UART_Transmit_DMA(&huart1,SendBuffor,len+2);
 	HAL_Delay(2);
 	//SS_RS_485_LED_R_OFF();
 }
@@ -69,8 +70,10 @@ void Modbus_Main() {
 		Modbus_Buffor_Tab[Modbus_index] = Modbus_Buffor_Temp;
 		Modbus_index++;
 		if(Modbus_Buffor_Tab[0]!=Modbus_Address_Device) {Modbus_index=0;Modbus_Flaga_DMA_Rx=false;return ;} //Czyszczenie bufora
+
 		//if(Modbus_Buffor_Tab[1]!=Modbus_Function_Read && Modbus_index >2 ) {Modbus_index=0;Modbus_Flaga_DMA_Rx=false;SS_RS_485_LED_G_OFF();return ;}
 		//if(Modbus_Buffor_Tab[1]!=Modbus_Function_Write&& Modbus_index >2 ) {Modbus_index=0;Modbus_Flaga_DMA_Rx=false;SS_RS_485_LED_G_OFF();return ;}
+
 		if (Modbus_Buffor_Tab[1] == Modbus_Function_Write && Modbus_index >= 11) { //Ramka Write
 			uint16_t DataAdd = (Modbus_Buffor_Tab[2] << 8)	| Modbus_Buffor_Tab[3]; //The Data Address of the first register
 			uint16_t NrReg2W = (Modbus_Buffor_Tab[4] << 8)	| Modbus_Buffor_Tab[5]; //The number of registers to write
@@ -84,29 +87,8 @@ void Modbus_Main() {
 				uint8_t i=0;
 				for(i=0;i<NrReg2W;i++){
 					//Modbus_Register1[Modbus_Data_OFFSET + DataAdd +i]=(Modbus_Buffor_Tab[7+2*i]<<8)|Modbus_Buffor_Tab[8+2*i];
+					ModbusTCP.Register[Modbus_Data_OFFSET + DataAdd + i]=(Modbus_Buffor_Tab[7+2*i]<<8)|Modbus_Buffor_Tab[8+2*i];
 				}
-				/*if(Modbus_Register1[0]==1)NVIC_SystemReset();
-				if(Modbus_Register1[2]!=0){
-					SYS_COMMAND_Silnik_Lewo=true; SYS_COMMAND_Silnik_Prawo=false;}		//kierunek
-				if(Modbus_Register1[2]==0){
-					SYS_COMMAND_Silnik_Lewo=false;SYS_COMMAND_Silnik_Prawo=true;}		//kierunek
-				g_time_softstart = Modbus_Register1[3];															//TSS
-				basic_alfa = Modbus_Register1[10];																//Alfa
-				if(Modbus_Register1[11]!=0){SYS_COMMAND_Start=true;	SYS_COMMAND_Stop=false;}					//Start
-				if(Modbus_Register1[11]==0){SYS_COMMAND_Start=false;SYS_COMMAND_Stop=true;}						//Start
-				L1.fuse_U_max=Modbus_Register1[12];L2.fuse_U_max=Modbus_Register1[12];L3.fuse_U_max=Modbus_Register1[12];	//fuse_U_max
-				L1.fuse_U_min=Modbus_Register1[14];L2.fuse_U_min=Modbus_Register1[14];L3.fuse_U_min=Modbus_Register1[14];	//fuse_U_min
-				uint16_t *p1,*p2,*p3;
-				p1=&L1.fuse_I_nominalny;      p2=&L2.fuse_I_nominalny;       p3=&L3.fuse_I_nominalny;					//fuse_Iznam
-				*p1=Modbus_Register1[50];     *p2=Modbus_Register1[50];      *p3=Modbus_Register1[50];
-				*(p1+1)=Modbus_Register1[51]; *(p2+1)=Modbus_Register1[51];  *(p3+1)=Modbus_Register1[51];
-				p1=&L1.fuse_I_zwarciowy;      p2=&L2.fuse_I_zwarciowy;       p3=&L3.fuse_I_zwarciowy;					//fuse_Imax
-				*p1=Modbus_Register1[52];     *p2=Modbus_Register1[52];      *p3=Modbus_Register1[52];
-				*(p1+1)=Modbus_Register1[53]; *(p2+1)=Modbus_Register1[53];  *(p3+1)=Modbus_Register1[53];
-				p1=&L1.fuse_I_rozruchowy;     p2=&L2.fuse_I_rozruchowy;      p3=&L3.fuse_I_rozruchowy;				    //fuse_Iroz
-				*p1=Modbus_Register1[54];     *p2=Modbus_Register1[54];      *p3=Modbus_Register1[54];
-				*(p1+1)=Modbus_Register1[55]; *(p2+1)=Modbus_Register1[55];  *(p3+1)=Modbus_Register1[55];
-				State_Output = Modbus_Register1[32];*/
 				Modbus_index = 0;
 			}
 		}
@@ -120,32 +102,14 @@ void Modbus_Main() {
 				uint16_t NrReg2R = (Modbus_Buffor_Tab[4] << 8)	| Modbus_Buffor_Tab[5]; //The total number of registers requested
 				uint8_t n = 3+2*NrReg2R;
 
-				/*uint16_t *p;
-				p=&L3.fuse_I_nominalny;  Modbus_Register1[50]= *p; Modbus_Register1[51]= *(p+1);
-				p=&L3.fuse_I_zwarciowy;  Modbus_Register1[52]= *p; Modbus_Register1[53]= *(p+1);
-				p=&L3.fuse_I_rozruchowy; Modbus_Register1[54]= *p; Modbus_Register1[55]= *(p+1);
-				Modbus_Register1[12]= L3.fuse_U_max;
-				Modbus_Register1[14]= L3.fuse_U_min;
-				if(SYS_COMMAND_Silnik_Lewo==true)  Modbus_Register1[2]= 1;
-				if(SYS_COMMAND_Silnik_Prawo==true) Modbus_Register1[2]= 0;
-				Modbus_Register1[3]= g_time_softstart;
-				Modbus_Register1[10]= basic_alfa;
-				Modbus_Register1[11]= SYS_COMMAND_Start;
-				Modbus_Register1[30]= State_Input;
-				Modbus_Register1[32]= State_Output;*/
 
 				memcpy(BuforACK,Modbus_Buffor_Tab,2);
 				BuforACK[2] = 2*NrReg2R;
 
 				for(uint8_t i=0;i<NrReg2R;i++){
-					if(Modbus_Buffor_Tab[3]>=10){
-						//BuforACK[3+2*i] = *Modbus_Register1[Modbus_Data_OFFSET+DataAdd+i]>>8;
-						//BuforACK[4+2*i] = *Modbus_Register1[Modbus_Data_OFFSET+DataAdd+i]&0xFF;
-					}
-					if(Modbus_Buffor_Tab[3]<10){
-						//BuforACK[3+2*i] = 0;
-						//BuforACK[4+2*i] = *Modbus_Register1[Modbus_Data_OFFSET+DataAdd+i]&0xFF;
-					}
+						BuforACK[3+2*i] = ModbusTCP.Register[Modbus_Data_OFFSET + DataAdd + i]>>8;
+						BuforACK[4+2*i] = ModbusTCP.Register[Modbus_Data_OFFSET + DataAdd + i]&0xFF;
+
 				}
 				ModbusWrite(BuforACK, n);
 			}

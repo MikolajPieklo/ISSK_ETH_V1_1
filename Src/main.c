@@ -52,6 +52,8 @@
 #include "socket.h"
 #include "ModbusTCP_IP.h"
 #include "dhcp.h"
+//#include "AT45DB161E.h"
+#include "A24AA64.h"
 
 volatile uint32_t SysTickTimer=0;
 // DHCP //
@@ -88,6 +90,15 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 	}*/
 }
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(huart->Instance == USART1)
+	{
+		HAL_GPIO_WritePin(USART1_DE_GPIO_Port, USART1_DE_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(USART1_REn_GPIO_Port, USART1_REn_Pin, GPIO_PIN_RESET);
+		HAL_NVIC_DisableIRQ(USART2_IRQn);
+	}
+}
 
 /* USER CODE END PFP */
 
@@ -121,57 +132,67 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  HAL_I2C_MspInit(&hi2c1);
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_I2C1_Init();
-  MX_I2C2_Init();
-  MX_SPI1_Init();
+  //MX_I2C2_Init();
+  //MX_SPI1_Init();
   MX_SPI2_Init();
   MX_USART1_UART_Init();
-  MX_USART2_UART_Init();
+  //MX_USART2_UART_Init();
   //MX_USART3_UART_Init();
 
   /* USER CODE BEGIN 2 */
   HAL_UART_MspInit(&huart1);
-  HAL_UART_MspInit(&huart2);
+  //HAL_UART_MspInit(&huart2);
   //HAL_UART_MspInit(&huart3);
+
+  HAL_UART_Receive_DMA(&huart1,&Modbus_Buffor_Temp,1);
+
   WIZ5500_Init();
 
-    wizchip_init(bufSize, bufSize);//  ctlwizchip(CW_INIT_WIZCHIP,)
-      wiz_NetInfo netInfo = { .mac 	= {0x00, 0x08, 0xdc, 0xab, 0xcd, 0xcd},	// Mac address
-                              .ip 	= {10, 125, 0, 150},					// IP address
-                              .sn 	= {255, 255, 255, 0},					// Subnet mask
-                              .gw 	= {10, 125, 0, 1},					// Gate address
-      						  .dhcp   = NETINFO_STATIC};//NETINFO_STATIC
+  wizchip_init(bufSize, bufSize);//  ctlwizchip(CW_INIT_WIZCHIP,)
+  wiz_NetInfo netInfo = { .mac 	= {0x00, 0x08, 0xdc, 0xab, 0xcd, 0xcd},	// Mac address
+                          .ip 	= {10, 125, 0, 150},					// IP address
+                          .sn 	= {255, 255, 255, 0},					// Subnet mask
+                          .gw 	= {10, 125, 0, 1},					// Gate address
+    						.dhcp   = NETINFO_STATIC};//NETINFO_STATIC
 
-      ctlnetwork(CN_SET_NETINFO,&netInfo);
-      ctlnetwork(CN_GET_NETINFO,&netInfo);
+   ctlnetwork(CN_SET_NETINFO,&netInfo);
+   ctlnetwork(CN_GET_NETINFO,&netInfo);
 
     if(netconfig == NETINFO_DHCP)
   	  DHCP_init(SOCK_7, gDATABUFDHCP);
 
  	uint8_t remoteIP[4];
  	uint16_t remotePort;
- 	uint8_t UART_Test[5];
- 	UART_Test[0]='T';
- 	UART_Test[1]='e';
- 	UART_Test[2]='s';
- 	UART_Test[3]='t';
- 	UART_Test[4]='\n';
+ 	uint8_t write[5];
+ 	write[0]=50;
+	uint8_t Read;
+ 	//CLEAR_BIT(hi2c1.Instance->CR1,I2C_CR1_SWRST);
+ 	HAL_Delay(10);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
+
+ 	while (1)
   {
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
 	  /* DHCP IP allocation and check the DHCP lease time (for IP renewal) */
+
+		HAL_I2C_Mem_Write(&hi2c1,A24AA64_Address,0,2,write,1,100);
+		HAL_Delay(100);
+		HAL_I2C_Mem_Read(&hi2c1,A24AA64_Address,0,2,&Read,1,100);
+		HAL_Delay(100);
+
+	  Modbus_Main();
 	 	  if(netconfig == NETINFO_DHCP) {
 	 		  dhcp_ret = DHCP_run();
 
@@ -190,12 +211,12 @@ int main(void)
 	 		  }
 	   }
 
-	 	HAL_GPIO_WritePin(USART1_DE_GPIO_Port,USART1_DE_Pin,GPIO_PIN_SET);
+	 	/*HAL_GPIO_WritePin(USART1_DE_GPIO_Port,USART1_DE_Pin,GPIO_PIN_SET);
 	 	HAL_GPIO_WritePin(USART1_REn_GPIO_Port,USART1_REn_Pin,GPIO_PIN_SET);
 	 	HAL_UART_Transmit(&huart1,UART_Test,5,100);
 	 	HAL_GPIO_WritePin(USART1_DE_GPIO_Port,USART1_DE_Pin,GPIO_PIN_RESET);
 	 	HAL_GPIO_WritePin(USART1_REn_GPIO_Port,USART1_REn_Pin,GPIO_PIN_RESET);
-	 	HAL_Delay(10);
+	 	HAL_Delay(10);*/
 
 	 	    retVal = getSn_SR(0);
 
