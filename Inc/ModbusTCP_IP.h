@@ -17,7 +17,7 @@ struct sModbusTCP
 {
 	uint8_t BufforTemp;
 	uint8_t Buffor[50];
-	uint16_t Register[50];
+	uint16_t Register[100];
 	uint16_t Data_Offset;
 	uint16_t Data_Len;
 	uint8_t  Data_Nr_Of_Bytes;

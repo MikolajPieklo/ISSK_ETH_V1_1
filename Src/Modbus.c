@@ -2,6 +2,8 @@
 #include "stm32f1xx_hal.h"
 #include "usart.h"
 #include "ModbusTCP_IP.h"
+#include "A24AA64.h"
+#include "i2c.h"
 
 
 
@@ -89,6 +91,70 @@ void Modbus_Main() {
 					//Modbus_Register1[Modbus_Data_OFFSET + DataAdd +i]=(Modbus_Buffor_Tab[7+2*i]<<8)|Modbus_Buffor_Tab[8+2*i];
 					ModbusTCP.Register[Modbus_Data_OFFSET + DataAdd + i]=(Modbus_Buffor_Tab[7+2*i]<<8)|Modbus_Buffor_Tab[8+2*i];
 				}
+
+				uint16_t war1=A24AA64.IP[0] << 8| A24AA64.IP[1];
+				uint16_t war2=A24AA64.IP[2] << 8| A24AA64.IP[3];
+				uint16_t war3;
+
+				if (((A24AA64.IP[0] << 8	| A24AA64.IP[1]) != ModbusTCP.Register[Modbus_Offset_IP])|| ((A24AA64.IP[2] << 8| A24AA64.IP[3])!= ModbusTCP.Register[Modbus_Offset_IP + 1]))
+				{
+					uint8_t Buffor[4];
+					Buffor[0]=ModbusTCP.Register[20]>>8;Buffor[1]=ModbusTCP.Register[20]&0xFF;
+					Buffor[2]=ModbusTCP.Register[21]>>8;Buffor[3]=ModbusTCP.Register[21]&0xFF;
+					HAL_I2C_Mem_Write(&hi2c1,A24AA64_Address,Modbus_Offset_IP,2,Buffor,4,100);
+					HAL_Delay(100);
+					HAL_NVIC_SystemReset();
+				}
+				war1=A24AA64.SubMask[0] << 8| A24AA64.SubMask[1];
+				war2=A24AA64.SubMask[2] << 8| A24AA64.SubMask[3];
+
+				if ((war1 != ModbusTCP.Register[Modbus_Offset_SubMask])|| (war2 != ModbusTCP.Register[Modbus_Offset_SubMask + 1]))
+				{
+					uint8_t Buffor[4];
+					Buffor[0]=ModbusTCP.Register[30]>>8;Buffor[1]=ModbusTCP.Register[30]&0xFF;
+					Buffor[2]=ModbusTCP.Register[31]>>8;Buffor[3]=ModbusTCP.Register[31]&0xFF;
+					HAL_I2C_Mem_Write(&hi2c1,A24AA64_Address,35,2,Buffor,4,100);
+					HAL_Delay(100);
+					HAL_NVIC_SystemReset();
+				}
+				war1=A24AA64.Gateway[0] << 8| A24AA64.Gateway[1];
+				war2=A24AA64.Gateway[2] << 8| A24AA64.Gateway[3];
+
+				if ((war1 != ModbusTCP.Register[Modbus_Offset_Gateway])|| (war2 != ModbusTCP.Register[Modbus_Offset_Gateway + 1]))
+				{
+					uint8_t Buffor[4];
+					Buffor[0]=ModbusTCP.Register[40]>>8;Buffor[1]=ModbusTCP.Register[40]&0xFF;
+					Buffor[2]=ModbusTCP.Register[41]>>8;Buffor[3]=ModbusTCP.Register[41]&0xFF;
+					HAL_I2C_Mem_Write(&hi2c1,A24AA64_Address,40,2,Buffor,4,100);
+					HAL_Delay(100);
+					HAL_NVIC_SystemReset();
+				}
+				war1=A24AA64.MAC[0] << 8| A24AA64.MAC[1];
+				war2=A24AA64.MAC[2] << 8| A24AA64.MAC[3];
+				war3=A24AA64.MAC[4] << 8| A24AA64.MAC[5];
+
+				if ((war1 != ModbusTCP.Register[Modbus_Offset_Mac])|| (war2 != ModbusTCP.Register[Modbus_Offset_Mac + 1])|| (war3 != ModbusTCP.Register[Modbus_Offset_Mac + 2]))
+				{
+					uint8_t Buffor[6];
+					Buffor[0]=ModbusTCP.Register[50]>>8;Buffor[1]=ModbusTCP.Register[50]&0xFF;
+					Buffor[2]=ModbusTCP.Register[51]>>8;Buffor[3]=ModbusTCP.Register[51]&0xFF;
+					Buffor[4]=ModbusTCP.Register[52]>>8;Buffor[5]=ModbusTCP.Register[52]&0xFF;
+					HAL_I2C_Mem_Write(&hi2c1,A24AA64_Address,50,2,Buffor,6,100);
+					HAL_Delay(100);
+					HAL_NVIC_SystemReset();
+				}
+				war1=A24AA64.DNS[0] << 8| A24AA64.DNS[1];
+				war2=A24AA64.DNS[2] << 8| A24AA64.DNS[3];
+
+				if ((war1 != ModbusTCP.Register[Modbus_Offset_DNS])|| (war2 != ModbusTCP.Register[Modbus_Offset_DNS + 1]))
+				{
+					uint8_t Buffor[4];
+					Buffor[0]=ModbusTCP.Register[60]>>8;Buffor[1]=ModbusTCP.Register[60]&0xFF;
+					Buffor[2]=ModbusTCP.Register[61]>>8;Buffor[3]=ModbusTCP.Register[61]&0xFF;
+					HAL_I2C_Mem_Write(&hi2c1,A24AA64_Address,60,2,Buffor,4,100);
+					HAL_Delay(100);
+					HAL_NVIC_SystemReset();
+				}
 				Modbus_index = 0;
 			}
 		}
@@ -109,7 +175,6 @@ void Modbus_Main() {
 				for(uint8_t i=0;i<NrReg2R;i++){
 						BuforACK[3+2*i] = ModbusTCP.Register[Modbus_Data_OFFSET + DataAdd + i]>>8;
 						BuforACK[4+2*i] = ModbusTCP.Register[Modbus_Data_OFFSET + DataAdd + i]&0xFF;
-
 				}
 				ModbusWrite(BuforACK, n);
 			}

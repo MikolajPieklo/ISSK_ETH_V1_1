@@ -26,7 +26,9 @@ Src/Modbus.o: ../Src/Modbus.c \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/usart.h \
- C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/ModbusTCP_IP.h
+ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/ModbusTCP_IP.h \
+ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/A24AA64.h \
+ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/i2c.h
 
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/Modbus.h:
 
@@ -83,3 +85,7 @@ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/usart.h:
 
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/ModbusTCP_IP.h:
+
+C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/A24AA64.h:
+
+C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/i2c.h:

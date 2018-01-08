@@ -1,6 +1,6 @@
 Src/WIZ5500.o: ../Src/WIZ5500.c \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/WIZ5500.h \
- C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/gpio.h \
+ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/i2c.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/stm32f1xx_hal_conf.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/main.h \
@@ -26,12 +26,13 @@ Src/WIZ5500.o: ../Src/WIZ5500.c \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
+ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/gpio.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/spi.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/ModbusTCP_IP.h
 
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/WIZ5500.h:
 
-C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/gpio.h:
+C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/i2c.h:
 
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 
@@ -82,6 +83,8 @@ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h:
 
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
+
+C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/gpio.h:
 
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/spi.h:
 

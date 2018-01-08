@@ -6,6 +6,7 @@
  */
 
 #include "stdint.h"
+#include "i2c.h"
 
 #ifndef WIZ5500_H_
 #define WIZ5500_H_
@@ -63,5 +64,6 @@ struct WIZ5500{
 
 void WIZ5500_INIT();
 void WIZ5000_TEST();
+void HAL_I2C_ClearBusyFlagErrata_2_14_7(I2C_HandleTypeDef *hi2c);
 
 #endif /* WIZ5500_H_ */

@@ -80,3 +80,113 @@ void WIZ5000_TEST() {
 	HAL_SPI_TransmitReceive(&hspi2, SPI_DATA_Send, SPI_DATA_Recesive, 4, 100);
 	HAL_GPIO_WritePin(W5500_CS_GPIO_Port, W5500_CS_Pin, GPIO_PIN_SET);
 }
+
+
+void HAL_I2C_ClearBusyFlagErrata_2_14_7(I2C_HandleTypeDef *hi2c) {
+	/**
+	1. Disable the I2C peripheral by clearing the PE bit in I2Cx_CR1 register.
+	2. Configure the SCL and SDA I/Os as General Purpose Output Open-Drain, High level
+	(Write 1 to GPIOx_ODR).
+	3. Check SCL and SDA High level in GPIOx_IDR.
+	4. Configure the SDA I/O as General Purpose Output Open-Drain, Low level (Write 0 to
+	GPIOx_ODR).
+	5. Check SDA Low level in GPIOx_IDR.
+	6. Configure the SCL I/O as General Purpose Output Open-Drain, Low level (Write 0 to
+	GPIOx_ODR).
+	7. Check SCL Low level in GPIOx_IDR.
+	8. Configure the SCL I/O as General Purpose Output Open-Drain, High level (Write 1 to
+	GPIOx_ODR).
+	9. Check SCL High level in GPIOx_IDR.
+	10. Configure the SDA I/O as General Purpose Output Open-Drain , High level (Write 1 to
+	GPIOx_ODR).
+	11. Check SDA High level in GPIOx_IDR.
+	12. Configure the SCL and SDA I/Os as Alternate function Open-Drain.
+	13. Set SWRST bit in I2Cx_CR1 register.
+	14. Clear SWRST bit in I2Cx_CR1 register.
+	15. Enable the I2C peripheral by setting the PE bit in I2Cx_CR1 register.
+	**/
+
+    uint32_t SDA_PIN = GPIO_PIN_7;
+    uint32_t SCL_PIN = GPIO_PIN_6;
+
+    // 1
+    CLEAR_BIT(hi2c->Instance->CR1,I2C_CR1_PE);
+
+    // 2
+    GPIOB->CRL &= 0xFFFFFF;
+    GPIOB->CRL |= 0x77000000;
+    GPIOB->ODR &= 0x3F;
+    GPIOB->ODR |= 0xC0;
+    HAL_GPIO_WritePin(GPIOB,SDA_PIN|SCL_PIN,GPIO_PIN_SET);
+
+    // 3
+    if (HAL_GPIO_ReadPin(GPIOB, SDA_PIN) != GPIO_PIN_SET) {
+        for(;;){}
+    }
+    if (HAL_GPIO_ReadPin(GPIOB, SCL_PIN) != GPIO_PIN_SET) {
+        for(;;){}
+    }
+
+    // 4
+    GPIOB->CRL &=0xFFFFFF;
+    GPIOB->CRL = 0x70000000;
+    GPIOB->ODR &= 0x3F;
+    GPIOB->ODR = 0;
+    HAL_Delay(1);
+
+    // 5
+    if (HAL_GPIO_ReadPin(GPIOB, SDA_PIN) != GPIO_PIN_RESET) {
+        for(;;){}
+    }
+
+    // 6
+    GPIOB->CRL &=0xFFFFFF;
+    GPIOB->CRL = 0x7000000;
+    GPIOB->ODR &= 0x3F;
+    GPIOB->ODR = 0;
+    HAL_Delay(1);
+
+    // 7
+    if (HAL_GPIO_ReadPin(GPIOB, SCL_PIN) != GPIO_PIN_RESET) {
+        for(;;){}
+    }
+
+    // 8
+    GPIOB->CRL &=0xFFFFFF;
+    GPIOB->CRL = 0x70000000;
+    GPIOB->ODR &= 0x3F;
+    GPIOB->ODR = 0x80;
+    HAL_Delay(1);
+
+    // 9
+    if (HAL_GPIO_ReadPin(GPIOB, SDA_PIN) != GPIO_PIN_SET) {
+        for(;;){}
+    }
+
+    // 10
+    GPIOB->CRL &=0xFFFFFF;
+    GPIOB->CRL = 0x7000000;
+    GPIOB->ODR &= 0x3F;
+    GPIOB->ODR = 0x40;
+    HAL_Delay(1);
+
+    // 11
+    if (HAL_GPIO_ReadPin(GPIOB, SCL_PIN) != GPIO_PIN_SET) {
+        for(;;){}
+    }
+
+    // 12
+    GPIOB->ODR |= 0xFF000000;
+
+   // 13
+   SET_BIT(hi2c->Instance->CR1,I2C_CR1_SWRST);
+
+   // 14
+   CLEAR_BIT(hi2c->Instance->CR1,I2C_CR1_SWRST);
+
+   // 15
+    SET_BIT(hi2c->Instance->CR1,I2C_CR1_PE);
+
+    HAL_I2C_Init(&hi2c1);
+    HAL_I2C_MspInit(&hi2c1);
+}

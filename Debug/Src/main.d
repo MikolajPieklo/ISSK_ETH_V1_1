@@ -32,6 +32,7 @@ Src/main.o: ../Src/main.c \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/gpio.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/Modbus.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/WIZ5500.h \
+ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/i2c.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/wizchip_conf.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/w5500.h \
  C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/wizchip_conf.h \
@@ -106,6 +107,8 @@ C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/gpi
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/Modbus.h:
 
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/WIZ5500.h:
+
+C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/i2c.h:
 
 C:/Users/mikolajp/Desktop/softstarter/4.\ Ethernet/Program/ISSK_ETH_V1_1/Inc/wizchip_conf.h:
 

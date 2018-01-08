@@ -7,6 +7,14 @@
 #define Modbus_Function_Read      0x03
 #define Modbus_Data_OFFSET        0x00
 
+#define Modbus_Offset_IP        20
+#define Modbus_Offset_SubMask   30
+#define Modbus_Offset_Gateway   40
+#define Modbus_Offset_Mac       50
+#define Modbus_Offset_DHCP      60
+#define Modbus_Offset_DNS       70
+
+
 void Modbus_Main(void);
 uint8_t Modbus_Flaga_DMA_Rx;
 uint8_t Modbus_Counter_DMA_Tx;
